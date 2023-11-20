@@ -1,6 +1,6 @@
-rules = ["S-aSb", "S-a"]
-E = ["a", "b"]
-V = ["S"]
+rules = ["S-aSb", "A-a", "A-c"]
+E = ["a", "b", "c"]
+V = ["S", "A"]
 
 
 #Lado derecho de una produccion
@@ -23,7 +23,6 @@ def sigma():
 def deriva_epsilon(string, k):
     flag = True
     for i in range(0, k):
-        print("Hola")
         if "e" in calculate_first(string[i]):
             flag = True
         else:
@@ -31,21 +30,28 @@ def deriva_epsilon(string, k):
     return flag
 
 def calculate_first(x):
-    parts = parts_of(x)
-    first = []
+
     if x in E:
         return x
     if x in V and len(parts) >= 1:
         for i in range(0, len(parts)):
             for j in range(0, len(parts[i])):
-                print(parts[i][j])
-                print(deriva_epsilon(parts[i], j))
                 if calculate_first(parts[i][j]) in E and deriva_epsilon(parts[i], j) == True:
-                    first.append(parts[i][j])
-            if deriva_epsilon(parts[i], len(parts[i])) == True:
-                first.append("e")
-    if "e" in parts:
-        first.append("e")
+                    return parts[i][j]
+        if "e" in parts:
+            return "e"
+
     return first
 
-print(parts_of("S"))
+def get_first(S):
+    first = []
+    parts = parts_of(S)
+
+    for i in range(0, len(parts)):
+        for j in range(0, len(parts[i])):
+            f = calculate_first(parts[i][j])
+
+    return first
+
+
+print(get_first("S"))
